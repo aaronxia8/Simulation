@@ -192,3 +192,117 @@ for (i in (1:500)){
   tr=c(tr,LCV3(100000,RG))
 }
 mean(tr)
+
+
+##part 3 a nonhomogeneous Markov chain with p_11(l)=1/(l+1)
+
+## define a function to generate the desired transition matrix at time t to ganrantee that p_11(t)=1/(t+1)
+simulateTransition<-function(pi,t){
+  if (t==1){
+    p1=runif(1,0,1/2)
+    p2=1/2-p1
+    p3=runif(1,0,1)
+    p4=runif(1,0,1-p3)
+    p5=1-p3-p4
+    p6=runif(1,0,1)
+    p7=runif(1,0,1-p6)
+    p8=1-p6-p7
+    pt=c(1/2,p1,p2,p3,p4,p5,p6,p7,p8)
+  }
+  else{
+    x0=pi[1]
+    x1=pi[2]
+    x2=pi[3]
+    p1=runif(1,0,1/2)
+    p2=1/2-p1
+    p3=((1/(t+1))-(0.5)*x0)/(x1+x2)
+    p4=runif(1,0,1-p3)
+    p5=1-p3-p4
+    p6=((1/(t+1))-(0.5)*x0)/(x1+x2)
+    p7=runif(1,0,1-p6)
+    p8=1-p6-p7
+    pt=c(1/2,p1,p2,p3,p4,p5,p6,p7,p8)
+  }
+  return (pt)
+}
+
+##define a function to generate all transition matrix from t=1 to lent
+generateAll<-function(lent){
+  pi=c(1,0,0)
+  alltransi=c()
+  sump=0
+  for (i in (1:lent)){
+    pp=simulateTransition(pi,i)
+    pi=pi%*%t(matrix(pp, ncol = 3, nrow = 3))
+    sump=sump+c(pi)[1]
+    alltransi=c(alltransi,pp)
+  }
+  return (c(sump,alltransi))
+}
+
+LCV4<- function(lent,GA){
+  GA=GA[2:length(GA)]
+  currentpos=1
+  ccount=0
+  hcount=0
+  for (i in (1:lent)){
+    if (currentpos==1){
+      p1=GA[((i-1)*3+1):((i-1)*3+3)]
+      currentpos=sampleDist(1,p1)
+      if (currentpos==1){
+        ccount=ccount+1
+        if (ccount>=hcount){
+          hcount=ccount
+        }
+      }
+      else{
+        ccount=0
+      }
+    }
+    else if (currentpos==2){
+      p2=GA[((i-1)*3+4):((i-1)*3+6)]
+      currentpos=sampleDist(1,p2)
+      if (currentpos==1){
+        ccount=ccount+1
+        if (ccount>=hcount){
+          hcount=ccount
+        }
+      }
+      else{
+        ccount=0
+      }
+    }
+    else{
+      p3=GA[((i-1)*3+7):((i-1)*3+9)]
+      currentpos=sampleDist(1,p3)
+      if (currentpos==1){
+        ccount=ccount+1
+        if (ccount>=hcount){
+          hcount=ccount
+        }
+      }
+      else{
+        ccount=0
+      }
+      
+    }
+  }
+  return (hcount)
+}
+set.seed(100)
+GA=generateAll(10000)
+##derive the mean of L(1,10000) for 1500 runs
+tr=c()
+for (i in (1:1500)){
+  tr=c(tr,LCV4(10000,GA))
+}
+mean(tr)
+
+##derive the mean of L(1,50000) for 1000 runs
+set.seed(100)
+GA=generateAll(50000)
+tr=c()
+for (i in (1:1000)){
+  tr=c(tr,LCV4(50000,GA))
+}
+mean(tr)
