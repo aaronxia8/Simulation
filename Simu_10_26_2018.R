@@ -196,7 +196,7 @@ mean(tr)
 
 ##part 3 a nonhomogeneous Markov chain with p_11(l)=1/(l+1)
 
-## define a function to generate the desired transition matrix at time t to ganrantee that p_11(t)=1/(t+1)
+## define a function to generate the desired transition matrix at time t to ganrantee that p_11(t)=(1/(t+1))^0.1
 simulateTransition<-function(pi,t){
   if (t==1){
     p1=runif(1,0,1/2)
@@ -215,10 +215,10 @@ simulateTransition<-function(pi,t){
     x2=pi[3]
     p1=runif(1,0,1/2)
     p2=1/2-p1
-    p3=((1/(t+1))-(0.5)*x0)/(x1+x2)
+    p3=min(((1/(t+1))-(0.5)*x0)/(x1+x2),0.99)
     p4=runif(1,0,1-p3)
     p5=1-p3-p4
-    p6=((1/(t+1))-(0.5)*x0)/(x1+x2)
+    p6=min(((1/(t+1))-(0.5)*x0)/(x1+x2),0.99)
     p7=runif(1,0,1-p6)
     p8=1-p6-p7
     pt=c(1/2,p1,p2,p3,p4,p5,p6,p7,p8)
@@ -247,7 +247,7 @@ LCV4<- function(lent,GA){
   hcount=0
   for (i in (1:lent)){
     if (currentpos==1){
-      p1=GA[((i-1)*3+1):((i-1)*3+3)]
+      p1=GA[((i-1)*9+1):((i-1)*9+3)]
       currentpos=sampleDist(1,p1)
       if (currentpos==1){
         ccount=ccount+1
@@ -260,7 +260,7 @@ LCV4<- function(lent,GA){
       }
     }
     else if (currentpos==2){
-      p2=GA[((i-1)*3+4):((i-1)*3+6)]
+      p2=GA[((i-1)*9+4):((i-1)*9+6)]
       currentpos=sampleDist(1,p2)
       if (currentpos==1){
         ccount=ccount+1
@@ -273,7 +273,7 @@ LCV4<- function(lent,GA){
       }
     }
     else{
-      p3=GA[((i-1)*3+7):((i-1)*3+9)]
+      p3=GA[((i-1)*9+7):((i-1)*9+9)]
       currentpos=sampleDist(1,p3)
       if (currentpos==1){
         ccount=ccount+1
@@ -296,13 +296,25 @@ tr=c()
 for (i in (1:1500)){
   tr=c(tr,LCV4(10000,GA))
 }
+GA[1]
 mean(tr)
 
-##derive the mean of L(1,50000) for 1000 runs
+hist(tr, 
+     main="Histogram for L(1,10000) with 1500 times", 
+     xlab="L(1,10000)", 
+     border="blue", 
+     col="green", 
+     xlim=c(min(tr),max(tr)), 
+     breaks=max(tr)-min(tr), 
+     prob = TRUE,xaxt="n")
+## draw the x-axis with user-defined tick-marks
+axis(side=1, at=seq (min(tr),max(tr),1))
+
+##derive the mean of L(1,50000) for 1500 runs
 set.seed(100)
 GA=generateAll(50000)
 tr=c()
-for (i in (1:1000)){
+for (i in (1:1500)){
   tr=c(tr,LCV4(50000,GA))
 }
 mean(tr)
