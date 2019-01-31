@@ -1,3 +1,349 @@
+##Simulation for theorem 2.1 and 2.2
+sampleDist = function(n,p) { 
+  sample(x = c(1,2,3), n, replace = T, prob = p) 
+}
+## set the predefine transition matrix
+p1=c(0.5,0.25,0.25)
+p2=c(1/3,1/3,1/3)
+p3=c(0.25,0.5,0.25)
+## Theorem 2.1
+## define a function to record the length of longest consecutive visits of state 1 
+## with time length lent
+LCV2 <- function(lent,p1,p2,p3){
+  currentpos=1
+  ccount=0
+  hcount=0
+  for (i in (1:lent)){
+    if (currentpos==1){
+      currentpos=sampleDist(1,p1)
+      if (currentpos==1){
+        ccount=ccount+1
+        if (ccount>=hcount){
+          hcount=ccount
+        }
+      }
+      else{
+        ccount=0
+      }
+    }
+    else if (currentpos==2){
+      currentpos=sampleDist(1,p2)
+      if (currentpos==1){
+        ccount=ccount+1
+        if (ccount>=hcount){
+          hcount=ccount
+        }
+      }
+      else{
+        ccount=0
+      }
+    }
+    else{
+      currentpos=sampleDist(1,p3)
+      if (currentpos==1){
+        ccount=ccount+1
+        if (ccount>=hcount){
+          hcount=ccount
+        }
+      }
+      else{
+        ccount=0
+      }
+      
+    }
+  }
+  return (hcount)
+}
+powA = function(a,n)
+{
+  if (n==1)  return (a)
+  if (n==2)  return (a%*%a)
+  if (n>2) return ( a%*%powA(a,n-1))
+}
+
+getfii<-function(lent,p1,p2,p3){
+  s=seq(1,lent)
+  s[1]=1/2
+  pp1=t(c(1/4,1/4))
+  pp2=rbind(c(1/3,1/3),c(1/2,1/4))
+  pp3=c(1/3,1/4)
+  s[2]=pp1%*%pp3
+  for (i in (3:lent)){
+    s[i]=pp1%*%(powA(pp2,i-2))%*%pp3
+  }
+  return (s)
+}
+
+getpii<-function(lent,p1,p2,p3){
+  s=seq(1,lent)
+  s[1]=1/2
+  mm=rbind(p1,p2,p3)
+ 
+  for (i in (2:lent)){
+    s[i]=powA(mm,i)[1,1]
+  }
+  return (s)
+}
+getpiik<-function(fi,pi,lent,r,k){
+  s=pi
+  s[k]=s[k]-r^k
+  for (i in ((k+1):lent)){
+    s[i]=s[i]-pi[i-k]*(r^k)
+    sum1=0
+    for (h in (2:(i-k+1))){
+      for (j in (2:h)){
+        if (j==h){
+          if (i-k-h+1==0){
+            sum1=sum1+fi[j]*(r^(k-1))
+          }
+          else{
+            sum1=sum1+fi[j]*pi[i-k-h+1]*(r^(k-1)) 
+          }
+        }
+        else{
+          if (i-k-h+1==0){
+            sum1=sum1+s[h-j]*fi[j]*(r^(k-1))
+          }
+          else{
+          sum1=sum1+s[h-j]*fi[j]*pi[i-k-h+1]*(r^(k-1)) 
+          }
+          }
+      }
+    }
+   s[i]=s[i]-sum1
+  }
+  return (s)
+}
+getP<-function(fi,pi,piik,lent,r,k){
+  s=pi
+  s[k]=1-r^k
+  for (n in ((k+1):lent)){
+    s[n]=1-r^k
+    sum1=0
+    for (l in (2:(n-k+1))){
+      for (h in (0:(l-2))){
+        if (h==0){
+          sum1=sum1+fi[l-h]*(r^(k-1))
+        }
+        else{
+          sum1=sum1+piik[h]*fi[l-h]*(r^(k-1)) 
+        }
+      }
+    }
+    s[n]=s[n]-sum1
+  }
+  return (s)
+  }
+
+fii=getfii(20,p1,p2,p3)
+pii=getpii(20,p1,p2,p3)
+piik=getpiik(fii,pii,20,0.5,5)
+P=getP(fii,pii,piik,20,0.5,5)
+
+
+##derive the mean of L(1,10000) for 5000 runs
+h=pii
+set.seed(100)
+for (j in (5:20)){
+tr=c()
+for (i in (1:150000)){
+  tr=c(tr,LCV2(j,p1,p2,p3))
+}
+s1=tr<5
+h[j]=sum(s1)/150000
+}
+P
+h
+
+###Theorem 2.2
+LCV22 <- function(lent,p1,p2,p3){
+  currentpos=1
+  ccount=0
+  hcount=0
+  for (i in (1:lent)){
+    if (currentpos==1){
+      currentpos=sampleDist(1,p1)
+      if (currentpos==2){
+        ccount=ccount+1
+        if (ccount>=hcount){
+          hcount=ccount
+        }
+      }
+      else{
+        ccount=0
+      }
+    }
+    else if (currentpos==2){
+      currentpos=sampleDist(1,p2)
+      if (currentpos==2){
+        ccount=ccount+1
+        if (ccount>=hcount){
+          hcount=ccount
+        }
+      }
+      else{
+        ccount=0
+      }
+    }
+    else{
+      currentpos=sampleDist(1,p3)
+      if (currentpos==2){
+        ccount=ccount+1
+        if (ccount>=hcount){
+          hcount=ccount
+        }
+      }
+      else{
+        ccount=0
+      }
+      
+    }
+  }
+  return (hcount)
+}
+
+getfjj<-function(lent,p1,p2,p3){
+  s=seq(1,lent)
+  s[1]=1/3
+  pp1=t(c(1/3,1/3))
+  pp2=rbind(c(1/2,1/4),c(1/4,1/4))
+  pp3=c(1/4,1/2)
+  s[2]=pp1%*%pp3
+  for (i in (3:lent)){
+    s[i]=pp1%*%(powA(pp2,i-2))%*%pp3
+  }
+  return (s)
+}
+
+
+getfij<-function(lent,p1,p2,p3){
+  s=seq(1,lent)
+  s[1]=1/4
+  pp1=t(c(1/2,1/4))
+  pp2=rbind(c(1/2,1/4),c(1/4,1/4))
+  pp3=c(1/4,1/2)
+  s[2]=pp1%*%pp3
+  for (i in (3:lent)){
+    s[i]=pp1%*%(powA(pp2,i-2))%*%pp3
+  }
+  return (s)
+}
+
+getpij<-function(lent,p1,p2,p3){
+  s=seq(1,lent)
+  s[1]=1/4
+  mm=rbind(p1,p2,p3)
+  
+  for (i in (2:lent)){
+    s[i]=powA(mm,i)[1,2]
+  }
+  return (s)
+}
+
+
+getpjj<-function(lent,p1,p2,p3){
+  s=seq(1,lent)
+  s[1]=1/3
+  mm=rbind(p1,p2,p3)
+  
+  for (i in (2:lent)){
+    s[i]=powA(mm,i)[2,2]
+  }
+  return (s)
+}
+
+
+getpijk<-function(fij,fjj,pij,pjj,lent,r,k){
+  s=pij
+  s[k]=s[k]-(r^(k-1))*pij[1]
+  s[k+1]=s[k+1]-(r^k)*pij[1]-(r^(k-1))*fij[2]
+  for (i in ((k+2):lent)){
+    sum1=0
+    for (t in (3:(i-k+1))){
+      for (z in (1:(t-2))){
+        if (i-k-t+1==0){
+          if (z<k){
+            sum1=sum1+pij[z]*fjj[t-z]*r^(k-1)
+          }
+          else{
+            sum1=sum1+s[z]*fjj[t-z]*r^(k-1) 
+          }
+        }
+        else{
+          if (z<k){
+            sum1=sum1+pij[z]*fjj[t-z]*pjj[i-k-t+1]*r^(k-1) 
+          }
+          else{
+          sum1=sum1+s[z]*fjj[t-z]*pjj[i-k-t+1]*r^(k-1) 
+          }
+        }
+      }
+    }
+    for (w in (1:(i-k+1))){
+      if (i-w-k+1==0){
+        sum1=sum1+fij[w]*(r^(k-1))
+      }
+      else{
+      sum1=sum1+fij[w]*pjj[i-w-k+1]*(r^(k-1))
+      }
+    }
+    s[i]=s[i]-sum1
+  }
+  return (s)
+}
+
+getP<-function(fij,fjj,pijk,lent,r,k){
+  s=pijk
+  s[k]=1-fij[1]*(r^(k-1))
+  s[k+1]=1-fij[1]*(r^(k-1))-fij[2]*(r^(k-1))
+  for (n in ((k+2):lent)){
+    sum1=0
+    for (l in (3:(n-k+1))){
+      for (t in (1:(l-2))){
+        hold1=pijk[t]*fjj[l-t]*(r^(k-1))
+        sum1=sum1+hold1
+      }
+    }
+    s[n]=1-sum1
+    sum2=0
+    for (z in (1:(n-k+1))){
+      hold=fij[z]*(r^(k-1))
+      sum2=sum2+hold
+    }
+    s[n]=s[n]-sum2
+  }
+  return (s)
+}
+
+
+
+fjj=getfjj(20,p1,p2,p3)
+fij=getfij(20,p1,p2,p3)
+pij=getpij(20,p1,p2,p3)
+pjj=getpjj(20,p1,p2,p3)
+pijk=getpijk(fij,fjj,pij,pjj,20,1/3,5)
+P=getP(fij,fjj,pijk,20,1/3,5)
+
+
+##derive the mean of L(1,10000) for 5000 runs
+h=pjj
+set.seed(100)
+for (j in (5:20)){
+  tr=c()
+  for (i in (1:150000)){
+    tr=c(tr,LCV22(j,p1,p2,p3))
+  }
+  s1=tr<5
+  h[j]=sum(s1)/150000
+}
+P
+h
+
+
+
+
+
+
 ##Part 1 for homogeneous Markov chain with 3 states {1,2,3}
 
 ## define a function to get n samples from a given discrete distribution p 
