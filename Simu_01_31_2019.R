@@ -656,11 +656,15 @@ hist(tr,
 ## draw the x-axis with user-defined tick-marks
 axis(side=1, at=seq (min(tr),max(tr),1))
 
-##derive the mean of L(1,50000) for 1500 runs
+##derive the mean of L(1,100000) for 1000 runs
 set.seed(100)
-GA=generateAll(50000)
+GA=generateAll(100000)
 tr=c()
-for (i in (1:1500)){
-  tr=c(tr,LCV4(50000,GA))
+for (i in (1:1000)){
+  tr=c(tr,LCV4(100000,GA))
 }
 mean(tr)
+
+
+
+
