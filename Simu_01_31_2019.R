@@ -637,16 +637,16 @@ LCV4<- function(lent,GA){
 }
 set.seed(100)
 GA=generateAll(10000)
-##derive the mean of L(1,10000) for 1500 runs
+##derive the mean of L(1,10000) for 2500 runs
 tr=c()
-for (i in (1:1500)){
+for (i in (1:2500)){
   tr=c(tr,LCV4(10000,GA))
 }
 GA[1]
 mean(tr)
 
 hist(tr, 
-     main="Histogram for L(1,10000) with 1500 times", 
+     main="Histogram for L(1,10000) with 2500 times", 
      xlab="L(1,10000)", 
      border="blue", 
      col="green", 
@@ -656,11 +656,11 @@ hist(tr,
 ## draw the x-axis with user-defined tick-marks
 axis(side=1, at=seq (min(tr),max(tr),1))
 
-##derive the mean of L(1,100000) for 1000 runs
+##derive the mean of L(1,100000) for 2500 runs
 set.seed(100)
 GA=generateAll(100000)
 tr=c()
-for (i in (1:1000)){
+for (i in (1:2500)){
   tr=c(tr,LCV4(100000,GA))
 }
 mean(tr)
