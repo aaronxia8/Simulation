@@ -532,9 +532,9 @@ for (i in (1:5000)){
 mean(tr)
 
 
-##derive the mean of L(1,100000) for 500 runs
+##derive the mean of L(1,100000) for 1500 runs
 tr=c()
-for (i in (1:500)){
+for (i in (1:1500)){
   tr=c(tr,LCV3(100000,RG))
 }
 mean(tr)
