@@ -1,11 +1,15 @@
-##Simulation for theorem 2.1 and 2.2
+#########Simulation for theorem 2.1 and 2.2
+#########
+
 sampleDist = function(n,p) { 
   sample(x = c(1,2,3), n, replace = T, prob = p) 
 }
-## set the predefine transition matrix
+
+## set the predefined transition matrix to derive the sequence f_jj, p_ij,f_ij,p_jj
 p1=c(0.5,0.25,0.25)
 p2=c(1/3,1/3,1/3)
 p3=c(0.25,0.5,0.25)
+
 ## Theorem 2.1
 ## define a function to record the length of longest consecutive visits of state 1 
 ## with time length lent
@@ -54,6 +58,7 @@ LCV2 <- function(lent,p1,p2,p3){
   }
   return (hcount)
 }
+##a helper function to do matrix multiplication
 powA = function(a,n)
 {
   if (n==1)  return (a)
@@ -61,6 +66,7 @@ powA = function(a,n)
   if (n>2) return ( a%*%powA(a,n-1))
 }
 
+##a function to derive f_ii
 getfii<-function(lent,p1,p2,p3){
   s=seq(1,lent)
   s[1]=1/2
@@ -74,6 +80,7 @@ getfii<-function(lent,p1,p2,p3){
   return (s)
 }
 
+##a function to derive p_ii
 getpii<-function(lent,p1,p2,p3){
   s=seq(1,lent)
   s[1]=1/2
@@ -84,6 +91,8 @@ getpii<-function(lent,p1,p2,p3){
   }
   return (s)
 }
+
+##a function to derive p_iik
 getpiik<-function(fi,pi,lent,r,k){
   s=pi
   s[k]=s[k]-r^k
@@ -114,6 +123,8 @@ getpiik<-function(fi,pi,lent,r,k){
   }
   return (s)
 }
+
+#a function to derive exact probability
 getP<-function(fi,pi,piik,lent,r,k){
   s=pi
   s[k]=1-r^k
@@ -156,6 +167,8 @@ P
 h
 
 ###Theorem 2.2
+## define a function to record the length of longest consecutive visits of state 1 
+## with time length lent
 LCV22 <- function(lent,p1,p2,p3){
   currentpos=1
   ccount=0
@@ -202,6 +215,8 @@ LCV22 <- function(lent,p1,p2,p3){
   return (hcount)
 }
 
+
+##a function to find f_jj
 getfjj<-function(lent,p1,p2,p3){
   s=seq(1,lent)
   s[1]=1/3
@@ -215,7 +230,7 @@ getfjj<-function(lent,p1,p2,p3){
   return (s)
 }
 
-
+##a function to find f_ij
 getfij<-function(lent,p1,p2,p3){
   s=seq(1,lent)
   s[1]=1/4
@@ -240,7 +255,7 @@ getpij<-function(lent,p1,p2,p3){
   return (s)
 }
 
-
+##a function to find p_jj
 getpjj<-function(lent,p1,p2,p3){
   s=seq(1,lent)
   s[1]=1/3
@@ -252,7 +267,7 @@ getpjj<-function(lent,p1,p2,p3){
   return (s)
 }
 
-
+##a function to find p_ijk
 getpijk<-function(fij,fjj,pij,pjj,lent,r,k){
   s=pij
   s[k]=s[k]-(r^(k-1))*pij[1]
@@ -292,6 +307,7 @@ getpijk<-function(fij,fjj,pij,pjj,lent,r,k){
   return (s)
 }
 
+##a function to derive exact probability
 getP<-function(fij,fjj,pijk,lent,r,k){
   s=pijk
   s[k]=1-fij[1]*(r^(k-1))
@@ -343,8 +359,8 @@ h
 
 
 
-
-##Part 1 for homogeneous Markov chain with 3 states {1,2,3}
+###Appendix A: Illustration of Lemma 2.6
+##A.1 for homogeneous Markov chain with 3 states {1,2,3}
 
 ## define a function to get n samples from a given discrete distribution p 
 sampleDist = function(n,p) { 
@@ -437,7 +453,7 @@ findsump(10000)
 findsump(100000)
 
 
-##Pat 2 Simulation for time nonhomogeneous Markov chain with 3 states {1,2,3}
+##A.2 Simulation for time nonhomogeneous Markov chain with 3 states {1,2,3}
 ## generate all random number needed for P(t) from t=1 to 100000
 set.seed(100)
 RG=sample(1:30,8*100000,replace=TRUE)
@@ -540,7 +556,7 @@ for (i in (1:1500)){
 mean(tr)
 
 
-##part 3 a nonhomogeneous Markov chain with p_11(l)=1/(l+1)
+##A.2.2 a nonhomogeneous Markov chain with p_11(l)=1/(l+1)
 
 ## define a function to generate the desired transition matrix at time t to ganrantee that p_11(t)=(1/(t+1))^0.1
 simulateTransition<-function(pi,t){
@@ -664,7 +680,3 @@ for (i in (1:2500)){
   tr=c(tr,LCV4(100000,GA))
 }
 mean(tr)
-
-
-
-
