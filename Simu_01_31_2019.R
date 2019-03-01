@@ -558,7 +558,7 @@ mean(tr)
 
 ##A.2.2 a nonhomogeneous Markov chain with p_11(l)=1/(l+1)
 
-## define a function to generate the desired transition matrix at time t to ganrantee that p_11(t)=(1/(t+1))^0.1
+## define a function to generate the desired transition matrix at time t to ganrantee that p_11(t)=(1/(t+1))
 simulateTransition<-function(pi,t){
   if (t==1){
     p1=runif(1,0,1/2)
@@ -661,17 +661,6 @@ for (i in (1:2500)){
 GA[1]
 mean(tr)
 
-hist(tr, 
-     main="Histogram for L(1,10000) with 2500 times", 
-     xlab="L(1,10000)", 
-     border="blue", 
-     col="green", 
-     xlim=c(min(tr),max(tr)), 
-     breaks=max(tr)-min(tr), 
-     prob = TRUE,xaxt="n")
-## draw the x-axis with user-defined tick-marks
-axis(side=1, at=seq (min(tr),max(tr),1))
-
 ##derive the mean of L(1,100000) for 2500 runs
 set.seed(100)
 GA=generateAll(100000)
@@ -679,4 +668,5 @@ tr=c()
 for (i in (1:2500)){
   tr=c(tr,LCV4(100000,GA))
 }
+GA[1]
 mean(tr)
