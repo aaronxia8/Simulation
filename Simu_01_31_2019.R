@@ -428,7 +428,7 @@ mean(tr)
 quantile(tr)
 quantile(tr, probs = c(0.05, 0.95))
 
-##derive the mean of L(1,100000) for 500 runs
+##derive the mean of L(1,100000) for 1000 runs
 tr=c()
 for (i in (1:1000)){
   tr=c(tr,LCV2(100000,p1,p2,p3))
@@ -658,9 +658,9 @@ LCV4<- function(lent,GA){
 }
 set.seed(100)
 GA=generateAll(10000)
-##derive the mean of L(1,10000) for 2500 runs
+##derive the mean of L(1,10000) for 5000 runs
 tr=c()
-for (i in (1:2500)){
+for (i in (1:5000)){
   tr=c(tr,LCV4(10000,GA))
 }
 GA[1]
