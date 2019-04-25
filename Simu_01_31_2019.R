@@ -361,7 +361,7 @@ h
 
 ###Appendix A: Illustration of Lemma 2.6
 ##A.1 for homogeneous Markov chain with 3 states {1,2,3}
-
+set.seed(100)
 ## define a function to get n samples from a given discrete distribution p 
 sampleDist = function(n,p) { 
   sample(x = c(1,2,3), n, replace = T, prob = p) 
