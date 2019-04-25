@@ -425,7 +425,8 @@ for (i in (1:5000)){
   tr=c(tr,LCV2(10000,p1,p2,p3))
 }
 mean(tr)
-
+quantile(tr)
+quantile(tr, probs = c(0.05, 0.95))
 
 ##derive the mean of L(1,100000) for 500 runs
 tr=c()
@@ -433,6 +434,8 @@ for (i in (1:500)){
   tr=c(tr,LCV2(100000,p1,p2,p3))
 }
 mean(tr)
+quantile(tr)
+quantile(tr, probs = c(0.05, 0.95))
 
 ## a function to derive the sum of p_11(l) from l=1 to lent
 findsump <- function(lent){
@@ -546,7 +549,8 @@ for (i in (1:5000)){
   tr=c(tr,LCV3(10000,RG))
 }
 mean(tr)
-
+quantile(tr)
+quantile(tr, probs = c(0.05, 0.95))
 
 ##derive the mean of L(1,100000) for 1500 runs
 tr=c()
@@ -554,7 +558,8 @@ for (i in (1:1500)){
   tr=c(tr,LCV3(100000,RG))
 }
 mean(tr)
-
+quantile(tr)
+quantile(tr, probs = c(0.05, 0.95))
 
 ##A.2.2 a nonhomogeneous Markov chain with p_11(l)=1/(l+1)
 
@@ -660,6 +665,8 @@ for (i in (1:2500)){
 }
 GA[1]
 mean(tr)
+quantile(tr)
+quantile(tr, probs = c(0.05, 0.95))
 
 ##derive the mean of L(1,100000) for 2500 runs
 set.seed(100)
@@ -670,3 +677,5 @@ for (i in (1:2500)){
 }
 GA[1]
 mean(tr)
+quantile(tr)
+quantile(tr, probs = c(0.05, 0.95))
