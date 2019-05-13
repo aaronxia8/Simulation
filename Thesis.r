@@ -1118,6 +1118,128 @@ d  + geom_point(aes(colour = Type),size=1,alpha=0.8,position=position_jitter(h=0
 ## Illustration for Lemma 3.2
 ##study the length of longest consecutive visits of a pattern in time nonhomogeneous Markov chain
 
+
+sampleDist1 = function(n,p) { 
+  sample(x = c(1,2,3,4), n, replace = T, prob = p) 
+}
+
+simulateTransition1<-function(t){
+  p1=1/(4*(t^(0.1)))
+  p5=1/(4*(t^(0.1)))
+  p6=1/(4*(t^(0.1)))
+  p7=0.5-(1/(4*(t^(0.1))))
+  p8=0.5-(1/(4*(t^(0.1))))
+  pt=c(0.2,0.1,0.35,0.35,0.3,0.2,0.25,0.25,p1,0.5,(1-p1-0.5)/2,(1-p1-0.5)/2,p5,p6,p7,p8)
+  return (pt)
+}
+
+
+
+generateAll1<-function(lent){
+  pi=c(1,0,0,0)
+  alltransi=c()
+  sump=0
+  for (i in (1:lent)){
+    pp=simulateTransition1(i)
+    pi=pi%*%t(matrix(pp, ncol = 4))
+    sump=sump+c(pi)[2]
+    alltransi=c(alltransi,pp)
+  }
+  return (c(sump,alltransi))
+}
+
+
+
+LCV6<- function(lent,GA){
+  GA=GA[2:length(GA)]
+  currentpos=1
+  ccount=0
+  hcount=0
+  step1=0
+  for (i in (1:lent)){
+    if (currentpos==1){
+      p1=GA[((i-1)*16+1):((i-1)*16+4)]
+      currentpos=sampleDist1(1,p1)
+      if ((currentpos==3)&(step1=2)){
+        step1=3
+        ccount=ccount+1
+        hcount=max(ccount,hcount)
+      }
+      else if (currentpos==2){
+        step1=1
+        ccount=0
+      }
+      else{
+        step1=0
+        ccount=0
+      }
+    }
+    else if (currentpos==2){
+      p2=GA[((i-1)*16+5):((i-1)*16+8)]
+      currentpos=sampleDist1(1,p2)
+      if ((step1=1)&(currentpos==1)){
+        step1=2
+      }
+      else if(currentpos==2){
+        step1=1
+        ccount=0
+      }
+      else{
+        ccount=0
+        step1=0
+      }
+    }
+    
+    else if (currentpos==3){
+      p3=GA[((i-1)*16+9):((i-1)*16+12)]
+      currentpos=sampleDist1(1,p3)
+      if ((step1=3)&(currentpos==2)){
+        step1=1
+      }
+      else{
+        step1=0
+        ccount=0
+      }
+    }
+    
+    
+    else {
+      p4=GA[((i-1)*16+13):((i-1)*16+16)]
+      currentpos=sampleDist1(1,p4)
+      ccount=0
+      step1=0
+    }
+    
+  }
+  return (hcount)
+}
+
+##derive the mean of L(1,1000) for 5000 runs
+set.seed(100)
+GA=generateAll1(10000)
+tr=c()
+for (i in (1:5000)){
+  tr=c(tr,LCV6(10000,GA))
+}
+GA[1]
+mean(tr)
+quantile(tr)
+quantile(tr, probs = c(0.05, 0.95))
+
+
+
+set.seed(100)
+GA=generateAll1(100000)
+##derive the mean of L(1,10000) for 5000 runs
+tr=c()
+for (i in (1:2000)){
+  tr=c(tr,LCV6(100000,GA))
+}
+GA[1]
+mean(tr)
+quantile(tr)
+quantile(tr, probs = c(0.05, 0.95))
+
 ##plot simulation results from n=1 to 1000
 ##define a function to generate all transition matrix from t=1 to lent and also the sum of probability moving to set A 
 sampleDist1 = function(n,p) { 
@@ -1246,6 +1368,9 @@ d  + geom_point(aes(colour = Type),size=1,alpha=0.8,position=position_jitter(h=0
 
 
 
+
+
+
 ## Illustration for Lemma 4.2
 ##study the length of longest consecutive visits of a subset of states in time nonhomogeneous Markov chain
 
@@ -1347,37 +1472,24 @@ LCV5<- function(lent,GA){
 
 ##derive the mean of L(1,1000) for 5000 runs
 set.seed(100)
-GA=generateAll1(1000)
-tr=c()
-for (i in (1:5000)){
-  tr=c(tr,LCV5(1000,GA))
-}
-GA[1]
-mean(tr)
-quantile(tr)
-quantile(tr, probs = c(0.05, 0.95))
-
-
-
-set.seed(100)
-GA=generateAll1(5000)
-##derive the mean of L(1,5000) for 5000 runs
-tr=c()
-for (i in (1:5000)){
-  tr=c(tr,LCV5(5000,GA))
-}
-GA[1]
-mean(tr)
-quantile(tr)
-quantile(tr, probs = c(0.05, 0.95))
-
-
-set.seed(100)
 GA=generateAll1(10000)
-##derive the mean of L(1,10000) for 5000 runs
 tr=c()
 for (i in (1:5000)){
   tr=c(tr,LCV5(10000,GA))
+}
+GA[1]
+mean(tr)
+quantile(tr)
+quantile(tr, probs = c(0.05, 0.95))
+
+
+
+set.seed(100)
+GA=generateAll1(100000)
+##derive the mean of L(1,10000) for 5000 runs
+tr=c()
+for (i in (1:2000)){
+  tr=c(tr,LCV5(100000,GA))
 }
 GA[1]
 mean(tr)
