@@ -679,3 +679,90 @@ GA[1]
 mean(tr)
 quantile(tr)
 quantile(tr, probs = c(0.05, 0.95))
+
+
+##a counterexample where the state is transient
+## define a function to generate the desired transition matrix at time t 
+simulateTransition<-function(t){
+  if (t==1){
+    p2=0.5
+    p3=0.5
+    pt=c(1/2,0.5,p2,p3)
+  }
+  else{
+    pt=c(1/2,0.5,(1/(t^2)),1-(1/(t^2)))
+  }
+  return (pt)
+}
+
+sampleDist = function(n,p) { 
+  sample(x = c(1,2), n, replace = T, prob = p) 
+}
+##define a function to generate all transition matrix from t=1 to lent
+generateAll<-function(lent){
+  pi=c(1,0)
+  alltransi=c()
+  sump=0
+  for (i in (1:lent)){
+    pp=simulateTransition(i)
+    pi=pi%*%t(matrix(pp, ncol = 2, nrow = 2))
+    sump=sump+c(pi)[1]
+    alltransi=c(alltransi,pp)
+  }
+  return (c(sump,alltransi))
+}
+
+LCV4<- function(lent,GA){
+  GA=GA[2:length(GA)]
+  currentpos=1
+  ccount=0
+  hcount=0
+  for (i in (1:lent)){
+    if (currentpos==1){
+      p1=GA[((i-1)*4+1):((i-1)*4+2)]
+      currentpos=sampleDist(1,p1)
+      if (currentpos==1){
+        ccount=ccount+1
+        if (ccount>=hcount){
+          hcount=ccount
+        }
+      }
+      else{
+        ccount=0
+      }
+    }
+    else{
+      p2=GA[((i-1)*4+3):((i-1)*4+4)]
+      currentpos=sampleDist(1,p2)
+      if (currentpos==1){
+        ccount=ccount+1
+        if (ccount>=hcount){
+          hcount=ccount
+        }
+      }
+      else{
+        ccount=0
+      }
+    }
+  }
+  return (hcount)
+}
+set.seed(100)
+GA=generateAll(10000)
+##derive the mean of L(1,10000) for 5000 runs
+tr=c()
+for (i in (1:5000)){
+  tr=c(tr,LCV4(10000,GA))
+}
+GA[1]
+mean(tr)
+
+GA=generateAll(5000)
+##derive the mean of L(1,5000) for 5000 runs
+tr=c()
+for (i in (1:5000)){
+  tr=c(tr,LCV4(5000,GA))
+}
+GA[1]
+mean(tr)
+
