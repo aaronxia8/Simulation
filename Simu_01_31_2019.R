@@ -1204,7 +1204,7 @@ library(ggplot2)
 ##plot figure 1 in thesis (comparsion of 3 estimates of E(L(n)) and simulations)
 df1 <- data.frame("Length" = c(x1,x1), "Value" = c(sump[3:1000],meany[3:1000]),"Type"=c(rep("Our estimation",998),rep("Simulation",998)))
 d <- ggplot(df1, aes(Length, Value))
-d  + geom_point(aes(colour = Type),size=1,alpha=0.8,position=position_jitter(h=0.1, w=0.1)) +  xlab("Number of trials n") + ylab("Expected value of L(n) in simulations ")+ theme_grey(base_size = 24)+ theme(legend.position = c(0.8, 0.2))
+d  + geom_point(aes(colour = Type),size=1,alpha=0.8,position=position_jitter(h=0.1, w=0.1)) +  xlab("Number of trials n") + ylab("Expected value of L(1,n) in simulations ")+ theme_grey(base_size = 24)+ theme(legend.position = c(0.8, 0.2))
 
 
 
