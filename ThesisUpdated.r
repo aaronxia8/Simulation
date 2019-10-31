@@ -851,8 +851,13 @@ for (i in (1:10000)){
 s1=t(matrix(tr,ncol=10000))
 meany=colMeans(s1,dims=1)
 x1=seq(3,1000)
-
+##generate log2(n) sequence
+zz=c()
+for (i in (1:1000)){
+  zz=c(zz,log(i)/log(2))
+}
 ##plot figure 1 in thesis (comparsion of 3 estimates of E(L(n)) and simulations)
+###df1 <- data.frame("Length" = c(x1,x1,x1), "Value" = c(sump[3:1000],meany[3:1000],zz[3:1000]),"Type"=c(rep("Our estimation",998),rep("Simulation",998),rep("log2(n)",998)))
 df1 <- data.frame("Length" = c(x1,x1), "Value" = c(sump[3:1000],meany[3:1000]),"Type"=c(rep("Our estimation",998),rep("Simulation",998)))
 d <- ggplot(df1, aes(Length, Value))
 d  + geom_point(aes(colour = Type),size=3,alpha=0.8,position=position_jitter(h=0.005, w=0.005)) +  xlab("Number of trials n") + ylab("Estimation of L(1,n)")+ theme_grey(base_size = 24)+ theme(legend.position = c(0.8, 0.2))+theme(legend.text = element_text(size=25))
