@@ -37,7 +37,7 @@ for (i in (1:999)){
 ##plot figure 1 in thesis (comparsion of 3 estimates of E(L(n)) and simulations)
 df1 <- data.frame("Length" = c(x1,x1,x1,x1), "Value" = c(meany[3:1000],s2[3:1000],s3[3:1000],s4[3:1000]),"Type"=c(rep("Simulation",998),rep("log2(n)",998),rep("log2(0.5n)",998),rep("E(L(n)) by Flajolet et al.",998)))
 d <- ggplot(df1, aes(Length, Value))
-d  + geom_point(aes(colour = Type),size=2,alpha=0.8,position=position_jitter(h=0.05, w=0.05)) +  xlab("Length n") + ylab("Estimation of L(n)")+ theme_grey(base_size = 30)+ theme(legend.position = c(0.8, 0.2))+theme(legend.text = element_text(size=25))
+d  + geom_point(aes(colour = Type),size=2,alpha=0.8,position=position_jitter(h=0.05, w=0.05)) +  xlab("Length n") + ylab("Estimation of E(L(n))")+ theme_grey(base_size = 30)+ theme(legend.position = c(0.8, 0.2))+theme(legend.text = element_text(size=25))
 
 
 
@@ -618,7 +618,7 @@ x1=seq(3,1000)
 
 df1 <- data.frame("Length" = c(x1,x1), "Value" = c(sump[3:1000],meany[3:1000]),"Type"=c(rep("Our estimation",998),rep("Simulation",998)))
 d <- ggplot(df1, aes(Length, Value))
-d  + geom_point(aes(colour = Type),size=3,alpha=0.8,position=position_jitter(h=0.005, w=0.005)) +  xlab("Length n") + ylab("Estimation of L(1,n)")+ theme_grey(base_size = 24)+ theme(legend.position = c(0.8, 0.2))+theme(legend.text = element_text(size=25))
+d  + geom_point(aes(colour = Type),size=3,alpha=0.8,position=position_jitter(h=0.005, w=0.005)) +  xlab("Length n") + ylab("Estimation of E(L(1,n))")+ theme_grey(base_size = 24)+ theme(legend.position = c(0.8, 0.2))+theme(legend.text = element_text(size=25))
 
 
 
@@ -862,10 +862,10 @@ for (i in (1:1000)){
   zz=c(zz,log(i)/log(2))
 }
 ##plot figure 1 in thesis (comparsion of 3 estimates of E(L(n)) and simulations)
-###df1 <- data.frame("Length" = c(x1,x1,x1), "Value" = c(sump[3:1000],meany[3:1000],zz[3:1000]),"Type"=c(rep("Our estimation",998),rep("Simulation",998),rep("log2(n)",998)))
+##df1 <- data.frame("Length" = c(x1,x1,x1), "Value" = c(sump[3:1000],meany[3:1000],zz[3:1000]),"Type"=c(rep("Our estimation",998),rep("Simulation",998),rep("log2(n)",998)))
 df1 <- data.frame("Length" = c(x1,x1), "Value" = c(sump[3:1000],meany[3:1000]),"Type"=c(rep("Our estimation",998),rep("Simulation",998)))
 d <- ggplot(df1, aes(Length, Value))
-d  + geom_point(aes(colour = Type),size=3,alpha=0.8,position=position_jitter(h=0.005, w=0.005)) +  xlab("Length n") + ylab("Estimation of L(1,n)")+ theme_grey(base_size = 24)+ theme(legend.position = c(0.8, 0.2))+theme(legend.text = element_text(size=25))
+d  + geom_point(aes(colour = Type),size=3,alpha=0.8,position=position_jitter(h=0.005, w=0.005)) +  xlab("Length n") + ylab("Estimation of E(L(1,n))")+ theme_grey(base_size = 24)+ theme(legend.position = c(0.8, 0.2))+theme(legend.text = element_text(size=25))
 
 
 
@@ -1117,7 +1117,7 @@ x1=seq(3,1000)
 ##plot figure 1 in thesis (comparsion of 3 estimates of E(L(n)) and simulations)
 df1 <- data.frame("Length" = c(x1,x1), "Value" = c(sump[3:1000],meany[3:1000]),"Type"=c(rep("Our estimation",998),rep("Simulation",998)))
 d <- ggplot(df1, aes(Length, Value))
-d  + geom_point(aes(colour = Type),size=3,alpha=0.8,position=position_jitter(h=0.005, w=0.005)) +  xlab("Length n") + ylab("Estimation of L(1,n)")+ theme_grey(base_size = 24)+ theme(legend.position = c(0.8, 0.2))+theme(legend.text = element_text(size=25))
+d  + geom_point(aes(colour = Type),size=3,alpha=0.8,position=position_jitter(h=0.005, w=0.005)) +  xlab("Length n") + ylab("Estimation of E(L(1,n))")+ theme_grey(base_size = 24)+ theme(legend.position = c(0.8, 0.2))+theme(legend.text = element_text(size=25))
 
 
 
@@ -1313,7 +1313,7 @@ library(ggplot2)
 ##plot figure 1 in thesis (comparsion of 3 estimates of E(L(n)) and simulations)
 df1 <- data.frame("Length" = c(x1,x1), "Value" = c(sump[3:1000],meany[3:1000]),"Type"=c(rep("Our estimation",998),rep("Simulation",998)))
 d <- ggplot(df1, aes(Length, Value))
-d  + geom_point(aes(colour = Type),size=3,alpha=0.8,position=position_jitter(h=0.005, w=0.005)) +  xlab("Length n") + ylab("Estimation of L(1,n)")+ theme_grey(base_size = 24)+ theme(legend.position = c(0.8, 0.2))+theme(legend.text = element_text(size=25))
+d  + geom_point(aes(colour = Type),size=3,alpha=0.8,position=position_jitter(h=0.005, w=0.005)) +  xlab("Length n") + ylab("Estimation of E(L(1,n))")+ theme_grey(base_size = 24)+ theme(legend.position = c(0.8, 0.2))+theme(legend.text = element_text(size=25))
 
 
 
@@ -1562,7 +1562,7 @@ x1=seq(6,1000)
 ##plot figure 1 in thesis (comparsion of 3 estimates of E(L(n)) and simulations)
 df1 <- data.frame("Length" = c(x1,x1), "Value" = c(sump[6:1000],meany[6:1000]),"Type"=c(rep("Our estimation",995),rep("Simulation",995)))
 d <- ggplot(df1, aes(Length, Value))
-d  + geom_point(aes(colour = Type),size=3,alpha=0.8,position=position_jitter(h=0.005, w=0.005)) +  xlab("Length n") + ylab("Estimation of L(PT,n)")+ theme_grey(base_size = 24)+ theme(legend.position = c(0.8, 0.2))+theme(legend.text = element_text(size=25))
+d  + geom_point(aes(colour = Type),size=3,alpha=0.8,position=position_jitter(h=0.005, w=0.005)) +  xlab("Length n") + ylab("Estimation of E(L(PT,n))")+ theme_grey(base_size = 24)+ theme(legend.position = c(0.8, 0.2))+theme(legend.text = element_text(size=25))
 
 
 
@@ -1817,7 +1817,7 @@ x1=seq(3,1000)
 ##plot figure 1 in thesis (comparsion of 3 estimates of E(L(n)) and simulations)
 df1 <- data.frame("Length" = c(x1,x1), "Value" = c(sump[3:1000],meany[3:1000]),"Type"=c(rep("Our estimation",998),rep("Simulation",998)))
 d <- ggplot(df1, aes(Length, Value))
-d  + geom_point(aes(colour = Type),size=3,alpha=0.8,position=position_jitter(h=0.005, w=0.005)) +  xlab("Length n") + ylab("Estimation of L(A,n)")+ theme_grey(base_size = 24)+ theme(legend.position = c(0.8, 0.2))+theme(legend.text = element_text(size=25))
+d  + geom_point(aes(colour = Type),size=3,alpha=0.8,position=position_jitter(h=0.005, w=0.005)) +  xlab("Length n") + ylab("Estimation of E(L(A,n))")+ theme_grey(base_size = 24)+ theme(legend.position = c(0.8, 0.2))+theme(legend.text = element_text(size=25))
 
 
 
