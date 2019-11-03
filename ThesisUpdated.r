@@ -1300,7 +1300,7 @@ LCV4<- function(lent,GA){
 }
 
 GA=generateAll(1000)
-##derive the mean of L(1,10000) for 5000 runs
+##derive the mean of L(1,n) for 10000 runs
 tr=c()
 for (i in (1:10000)){
   tr=c(tr,LCV4(1000,GA))
@@ -1550,7 +1550,7 @@ LCV6<- function(lent,GA){
   return (ss1)
 }
 
-##derive the mean of L(1,1000) for 4000 runs
+##derive the mean of L(1,n) for 10000 runs
 tr=c()
 for (i in (1:10000)){
   tr=c(tr,LCV6(1000,alltransi))
@@ -1672,7 +1672,7 @@ LCV5<- function(lent,GA){
   return (hcount)
 }
 
-##derive the mean of L(1,1000) for 5000 runs
+##derive the mean of L(1,n) for 10000 runs
 set.seed(100)
 GA=generateAll1(10000)
 tr=c()
@@ -1688,7 +1688,7 @@ quantile(tr, probs = c(0.05, 0.95))
 
 set.seed(100)
 GA=generateAll1(100000)
-##derive the mean of L(1,10000) for 5000 runs
+##derive the mean of L(1,n) for 10000 runs
 tr=c()
 for (i in (1:5000)){
   tr=c(tr,LCV5(100000,GA))
