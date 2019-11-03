@@ -485,9 +485,9 @@ mean(tr)
 quantile(tr)
 quantile(tr, probs = c(0.05, 0.95))
 
-##derive the mean of L(1,100000) for 500 runs
+##derive the mean of L(1,100000) for 5000 runs
 tr=c()
-for (i in (1:1000)){
+for (i in (1:5000)){
   tr=c(tr,LCV2(100000,p1,p2,p3))
 }
 mean(tr)
@@ -601,7 +601,7 @@ LCV2 <- function(lent,p1,p2,p3){
   return (s1)
 }
 
-##derive the mean of L(1,10000) for 5000 runs
+##derive the mean of L(1,n) for 10000 runs
 tr=c()
 for (i in (1:10000)){
   tr=c(tr,LCV2(1000,p1,p2,p3))
@@ -740,9 +740,9 @@ mean(tr)
 quantile(tr)
 quantile(tr, probs = c(0.05, 0.95))
 
-##derive the mean of L(1,100000) for 1500 runs
+##derive the mean of L(1,100000) for 5000 runs
 tr=c()
-for (i in (1:1500)){
+for (i in (1:5000)){
   tr=c(tr,LCV3(100000,RG))
 }
 mean(tr)
@@ -848,7 +848,7 @@ LCV3 <- function(lent,RG){
 }
 
 
-##derive the mean of L(1,10000) for 5000 runs
+##derive the mean of L(1,n) for 10000 runs
 tr=c()
 for (i in (1:10000)){
   tr=c(tr,LCV3(1000,RG))
@@ -884,7 +884,7 @@ d  + geom_point(aes(colour = Type),size=3,alpha=0.8,position=position_jitter(h=0
 
 ##A.2.2 a nonhomogeneous Markov chain with p_11(l)=1/(l+1)
 
-## define a function to generate the desired transition matrix at time t to ganrantee that p_11(t)=(1/(t+1))^0.1
+## define a function to generate the desired transition matrix at time t to ganrantee that p_11(t)=(1/(t+1))
 simulateTransition<-function(pi,t){
   if (t==1){
     p1=runif(1,0,1/2)
@@ -979,7 +979,7 @@ LCV4<- function(lent,GA){
 }
 set.seed(100)
 GA=generateAll(10000)
-##derive the mean of L(1,10000) for 2500 runs
+##derive the mean of L(1,10000) for 5000 runs
 tr=c()
 for (i in (1:5000)){
   tr=c(tr,LCV4(10000,GA))
@@ -990,11 +990,11 @@ quantile(tr)
 quantile(tr, probs = c(0.05, 0.95))
 
 
-##derive the mean of L(1,100000) for 2500 runs
+##derive the mean of L(1,100000) for 5000 runs
 set.seed(100)
 GA=generateAll(100000)
 tr=c()
-for (i in (1:2500)){
+for (i in (1:5000)){
   tr=c(tr,LCV4(100000,GA))
 }
 GA[1]
@@ -1004,7 +1004,7 @@ quantile(tr, probs = c(0.05, 0.95))
 
 
 ##plot
-## define a function to generate the desired transition matrix at time t to ganrantee that p_11(t)=(1/(t+1))^0.1
+## define a function to generate the desired transition matrix at time t to ganrantee that p_11(t)=(1/(t+1))
 simulateTransition<-function(pi,t){
   if (t==1){
     p1=runif(1,0,1/2)
@@ -1105,7 +1105,7 @@ LCV4<- function(lent,GA){
   return (ss1)
 }
 set.seed(100)
-##derive the mean of L(1,10000) for 2500 runs
+##derive the mean of L(1,n) for 10000 runs
 tr=c()
 for (i in (1:10000)){
   tr=c(tr,LCV4(1000,alltransi))
@@ -1438,7 +1438,7 @@ set.seed(100)
 GA=generateAll1(100000)
 ##derive the mean of L(1,10000) for 5000 runs
 tr=c()
-for (i in (1:2000)){
+for (i in (1:5000)){
   tr=c(tr,LCV6(100000,GA))
 }
 GA[1]
@@ -1690,7 +1690,7 @@ set.seed(100)
 GA=generateAll1(100000)
 ##derive the mean of L(1,10000) for 5000 runs
 tr=c()
-for (i in (1:2000)){
+for (i in (1:5000)){
   tr=c(tr,LCV5(100000,GA))
 }
 GA[1]
@@ -1805,7 +1805,7 @@ LCV6<- function(lent,GA){
   return (ss1)
 }
 
-##derive the mean of L(1,5000) for 5000 runs
+##derive the mean of L(1,n) for 10000 runs
 tr=c()
 for (i in (1:10000)){
   tr=c(tr,LCV6(1000,alltransi))
