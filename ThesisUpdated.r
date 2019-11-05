@@ -1,4 +1,17 @@
 library(ggplot2)
+confidence_interval <- function(vector, interval) {
+  # Standard deviation of sample
+  vec_sd <- sd(vector)
+  # Sample size
+  n <- length(vector)
+  # Mean of sample
+  vec_mean <- mean(vector)
+  # Error according to t distribution
+  error <- qt((interval + 1)/2, df = n - 1) * vec_sd / sqrt(n)
+  # Confidence interval as a vector
+  result <- c("lower" = vec_mean - error, "upper" = vec_mean + error)
+  return(result)
+}
 ##simulation for bernoulli case
 ## a function to derive the array of longest head for each time
 B1<-function(num,p){
@@ -484,7 +497,7 @@ for (i in (1:5000)){
 mean(tr)
 quantile(tr)
 quantile(tr, probs = c(0.05, 0.95))
-
+confidence_interval(tr, 0.90)
 ##derive the mean of L(1,100000) for 5000 runs
 tr=c()
 for (i in (1:5000)){
@@ -493,7 +506,7 @@ for (i in (1:5000)){
 mean(tr)
 quantile(tr)
 quantile(tr, probs = c(0.05, 0.95))
-
+confidence_interval(tr, 0.90)
 ## a function to derive the sum of p_11(l) from l=1 to lent
 findsump <- function(lent){
   sump=0
@@ -739,7 +752,7 @@ for (i in (1:5000)){
 mean(tr)
 quantile(tr)
 quantile(tr, probs = c(0.05, 0.95))
-
+confidence_interval(tr, 0.90)
 ##derive the mean of L(1,100000) for 5000 runs
 tr=c()
 for (i in (1:5000)){
@@ -748,7 +761,7 @@ for (i in (1:5000)){
 mean(tr)
 quantile(tr)
 quantile(tr, probs = c(0.05, 0.95))
-
+confidence_interval(tr, 0.90)
 
 
 ##plot
@@ -988,7 +1001,7 @@ GA[1]
 mean(tr)
 quantile(tr)
 quantile(tr, probs = c(0.05, 0.95))
-
+confidence_interval(tr, 0.90)
 
 ##derive the mean of L(1,100000) for 5000 runs
 set.seed(100)
@@ -1001,7 +1014,7 @@ GA[1]
 mean(tr)
 quantile(tr)
 quantile(tr, probs = c(0.05, 0.95))
-
+confidence_interval(tr, 0.90)
 
 ##plot
 ## define a function to generate the desired transition matrix at time t to ganrantee that p_11(t)=(1/(t+1))
@@ -1197,7 +1210,7 @@ for (i in (1:5000)){
 }
 GA[1]
 mean(tr)
-
+confidence_interval(tr, 0.90)
 GA=generateAll(5000)
 ##derive the mean of L(1,5000) for 5000 runs
 tr=c()
@@ -1206,7 +1219,7 @@ for (i in (1:5000)){
 }
 GA[1]
 mean(tr)
-
+confidence_interval(tr, 0.90)
 
 ##plot
 ##B.3 for homogeneous Markov chain with 2 states {1,2}
@@ -1431,7 +1444,7 @@ GA[1]
 mean(tr)
 quantile(tr)
 quantile(tr, probs = c(0.05, 0.95))
-
+confidence_interval(tr, 0.90)
 
 
 set.seed(100)
@@ -1445,7 +1458,7 @@ GA[1]
 mean(tr)
 quantile(tr)
 quantile(tr, probs = c(0.05, 0.95))
-
+confidence_interval(tr, 0.90)
 ##plot simulation results from n=1 to 1000
 ##define a function to generate all transition matrix from t=1 to lent and also the sum of probability moving to set A 
 sampleDist1 = function(n,p) { 
@@ -1683,7 +1696,7 @@ GA[1]
 mean(tr)
 quantile(tr)
 quantile(tr, probs = c(0.05, 0.95))
-
+confidence_interval(tr, 0.90)
 
 
 set.seed(100)
@@ -1697,7 +1710,7 @@ GA[1]
 mean(tr)
 quantile(tr)
 quantile(tr, probs = c(0.05, 0.95))
-
+confidence_interval(tr, 0.90)
 
 ##plot simulation results from n=1 to 1000
 ##define a function to generate all transition matrix from t=1 to lent and also the sum of probability moving to set A 
